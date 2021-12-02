@@ -30,34 +30,45 @@ import axios from "axios";
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
 /*
-  STEP 3: Create a function that accepts a single object as its only argument.
-    Using DOM methods and properties, create and return the following markup:
+STEP 3: Create a function that accepts a single object as its only argument.
+Using DOM methods and properties, create and return the following markup:
 
-    <div class="card">
-      <img src={image url of user} />
-      <div class="card-info">
-        <h3 class="name">{users name}</h3>
-        <p class="username">{users user name}</p>
-        <p>Location: {users location}</p>
-        <p>Profile:
-          <a href={address to users github page}>{address to users github page}</a>
-        </p>
-        <p>Followers: {users followers count}</p>
-        <p>Following: {users following count}</p>
-        <p>Bio: {users bio}</p>
-      </div>
-    </div>
+<div class="card">
+<img src={image url of user} />
+<div class="card-info">
+<h3 class="name">{users name}</h3>
+<p class="username">{users user name}</p>
+<p>Location: {users location}</p>
+<p>Profile:
+<a href={address to users github page}>{address to users github page}</a>
+</p>
+<p>Followers: {users followers count}</p>
+<p>Following: {users following count}</p>
+<p>Bio: {users bio}</p>
+</div>
+</div>
 */
 
-axios
-  .get("https://api.github.com/users/brettsmith212")
-  .then((res) => {
-    createGithubCard(res.data);
-  })
-  .catch((err) => console.error(err));
+const followersArray = [
+  "brettsmith212",
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell",
+];
+
+function getProfiles(arr) {
+  arr.forEach((profile) => {
+    axios
+      .get(`https://api.github.com/users/${profile}`)
+      .then((res) => {
+        createGithubCard(res.data);
+      })
+      .catch((err) => console.error(err));
+  });
+}
 
 function createGithubCard(obj) {
   const cardDiv = document.createElement("div");
@@ -77,8 +88,8 @@ function createGithubCard(obj) {
   pUsername.textContent = obj.login;
   pLocation.textContent = `Location: ${obj.location}`;
   pProfile.textContent = "Profile: ";
-  aURL.href = obj.url;
-  aURL.textContent = obj.url;
+  aURL.href = obj.html_url;
+  aURL.textContent = obj.html_url;
   pFollowers.textContent = `Followers: ${obj.followers}`;
   pFollowing.textContent = `Following: ${obj.following}`;
 
@@ -99,8 +110,12 @@ function createGithubCard(obj) {
   infoDiv.appendChild(pBio);
 
   console.log(cardDiv);
-  return cardDiv;
+  const entryPoint = document.querySelector(".cards");
+  entryPoint.appendChild(cardDiv);
+  // return cardDiv;
 }
+
+getProfiles(followersArray);
 
 /*
   List of LS Instructors Github username's:
