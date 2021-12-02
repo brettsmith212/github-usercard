@@ -1,3 +1,5 @@
+import axios from "axios";
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
@@ -49,6 +51,56 @@ const followersArray = [];
       </div>
     </div>
 */
+
+axios
+  .get("https://api.github.com/users/brettsmith212")
+  .then((res) => {
+    createGithubCard(res.data);
+  })
+  .catch((err) => console.error(err));
+
+function createGithubCard(obj) {
+  const cardDiv = document.createElement("div");
+  const userImg = document.createElement("img");
+  const infoDiv = document.createElement("div");
+  const h3Name = document.createElement("h3");
+  const pUsername = document.createElement("p");
+  const pLocation = document.createElement("p");
+  const pProfile = document.createElement("p");
+  const aURL = document.createElement("a");
+  const pFollowers = document.createElement("p");
+  const pFollowing = document.createElement("p");
+  const pBio = document.createElement("p");
+
+  userImg.src = obj.avatar_url;
+  h3Name.textContent = obj.name;
+  pUsername.textContent = obj.login;
+  pLocation.textContent = `Location: ${obj.location}`;
+  pProfile.textContent = "Profile: ";
+  aURL.href = obj.url;
+  aURL.textContent = obj.url;
+  pFollowers.textContent = `Followers: ${obj.followers}`;
+  pFollowing.textContent = `Following: ${obj.following}`;
+
+  cardDiv.classList.add("card");
+  infoDiv.classList.add("card-info");
+  h3Name.classList.add("name");
+  pUsername.classList.add("username");
+
+  cardDiv.appendChild(userImg);
+  cardDiv.appendChild(infoDiv);
+  infoDiv.appendChild(h3Name);
+  infoDiv.appendChild(pUsername);
+  infoDiv.appendChild(pLocation);
+  infoDiv.appendChild(pProfile);
+  pProfile.appendChild(aURL);
+  infoDiv.appendChild(pFollowers);
+  infoDiv.appendChild(pFollowing);
+  infoDiv.appendChild(pBio);
+
+  console.log(cardDiv);
+  return cardDiv;
+}
 
 /*
   List of LS Instructors Github username's:
