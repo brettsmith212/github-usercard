@@ -89,6 +89,7 @@ function createGithubCard(obj) {
   pLocation.textContent = `Location: ${obj.location}`;
   pProfile.textContent = "Profile: ";
   aURL.href = obj.html_url;
+  aURL.target = "_blank";
   aURL.textContent = obj.html_url;
   pFollowers.textContent = `Followers: ${obj.followers}`;
   pFollowing.textContent = `Following: ${obj.following}`;
